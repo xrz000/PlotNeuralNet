@@ -1,8 +1,9 @@
-
 import os
 
-def to_head( projectpath ):
-    pathlayers = os.path.join( projectpath, 'layers/' ).replace('\\', '/')
+
+def to_head():
+    projectpath = os.path.dirname(__file__)
+    pathlayers = os.path.join(projectpath, 'layers').replace('\\', '/')
     return r"""
 \documentclass[border=8pt, multi, tikz]{standalone} 
 \usepackage{import}
