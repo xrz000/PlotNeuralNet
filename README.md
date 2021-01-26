@@ -19,14 +19,14 @@ Following are some network representations:
 <h6 align="center">Holistically-Nested Edge Detection (<a href="https://www.overleaf.com/read/jxhnkcnwhfxp">view on Overleaf</a>)</h6>
 
 ## Getting Started
-1. Install the following packages on Ubuntu.
+1. Install the following packages.
     * Ubuntu 16.04
         ```
         sudo apt-get install texlive-latex-extra
         ```
 
-    * Ubuntu 18.04.2
-Base on this [website](https://gist.github.com/rain1024/98dd5e2c6c8c28f9ea9d), please install the following packages.
+    * Ubuntu 18.04.2  
+    Base on this [website](https://gist.github.com/rain1024/98dd5e2c6c8c28f9ea9d), please install the following packages.
         ```
         sudo apt-get install texlive-latex-base
         sudo apt-get install texlive-fonts-recommended
@@ -40,8 +40,8 @@ Base on this [website](https://gist.github.com/rain1024/98dd5e2c6c8c28f9ea9d), p
 
 2. Execute the example as followed.
     ```
-    cd pyexamples/
-    bash ../tikzmake.sh test_simple
+    cd examples/Python
+    bash ../../tikzmake.sh test_simple
     ```
 
 ## TODO
@@ -53,7 +53,7 @@ Base on this [website](https://gist.github.com/rain1024/98dd5e2c6c8c28f9ea9d), p
 
 ## Latex usage
 
-See [`examples`](examples) directory for usage.
+See [`examples/LaTex`](examples/LaTex) directory for usage.
 
 ## Python usage
 
@@ -67,12 +67,11 @@ Add the following code to your new file:
 
 ```python
 import sys
-sys.path.append('../')
-from pycore.tikzeng import *
+from plotnn.tikzeng import *
 
 # defined your arch
 arch = [
-    to_head( '..' ),
+    to_head(),
     to_cor(),
     to_begin(),
     to_Conv("conv1", 512, 64, offset="(0,0,0)", to="(0,0,0)", height=64, depth=64, width=2 ),
