@@ -1,41 +1,3 @@
-import os
-
-
-def to_head():
-    projectpath = os.path.dirname(__file__)
-    pathlayers = os.path.join(projectpath, 'layers').replace('\\', '/')
-    return r"""
-\documentclass[border=8pt, multi, tikz]{standalone}
-\usepackage{import}
-\subimport{""" + pathlayers + r"""}{init}
-\usetikzlibrary{positioning}
-\usetikzlibrary{3d} %for including external image
-"""
-
-
-def to_cor():
-    return r"""
-\def\ConvColor{rgb:yellow,5;red,2.5;white,5}
-\def\ConvReluColor{rgb:yellow,5;red,5;white,5}
-\def\PoolColor{rgb:red,1;black,0.3}
-\def\UnpoolColor{rgb:blue,2;green,1;black,0.3}
-\def\FcColor{rgb:blue,5;red,2.5;white,5}
-\def\FcReluColor{rgb:blue,5;red,5;white,4}
-\def\SoftmaxColor{rgb:magenta,5;black,7}
-\def\SumColor{rgb:blue,5;green,15}
-"""
-
-
-def to_begin():
-    return r"""
-\newcommand{\copymidarrow}{\tikz \draw[-Stealth,line width=0.8mm,draw={rgb:blue,4;red,1;green,1;black,3}] (-0.3,0) -- ++(0.3,0);}
-
-\begin{document}
-\begin{tikzpicture}
-\tikzstyle{connection}=[ultra thick,every node/.style={sloped,allow upside down},draw=\edgecolor,opacity=0.7]
-\tikzstyle{copyconnection}=[ultra thick,every node/.style={sloped,allow upside down},draw={rgb:blue,4;red,1;green,1;black,3},opacity=0.7]
-"""
-
 # layers definition
 
 def to_input(pathfile, to='(-3,0,0)', width=8, height=8, name="temp"):
@@ -199,16 +161,3 @@ def to_skip(of, to, pos=1.25):
 -- node {\copymidarrow}(""" + to + """-top)
 -- node {\copymidarrow} (""" + to + """-north);
 """
-
-
-def to_end():
-    return r"""
-\end{tikzpicture}
-\end{document}
-"""
-
-
-def to_generate(arch, pathname="file.tex"):
-    with open(pathname, "w") as f:
-        for c in arch:
-            f.write(c)

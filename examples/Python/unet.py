@@ -1,12 +1,11 @@
 import sys
+
+from plotnn import plotnn
 import plotnn.tikzeng as tk
 import plotnn.blocks as blk
 
 
 arch = [
-    tk.to_head(),
-    tk.to_cor(),
-    tk.to_begin(),
     # input
     tk.to_input('../LaTex/fcn8s/cats.jpg'),
 
@@ -45,13 +44,12 @@ arch = [
     tk.to_ConvSoftMax(name="soft1", s_filer=512, offset="(0.75,0,0)", to="(end_b9-east)",
                       width=1, height=40, depth=40, caption="SOFT"),
     tk.to_connection("end_b9", "soft1"),
-    tk.to_end()
 ]
 
 
 def main():
     namefile = str(sys.argv[0]).split('.')[0]
-    tk.to_generate(arch, namefile + '.tex')
+    plotnn.generate(arch, namefile + '.tex')
 
 
 if __name__ == '__main__':
