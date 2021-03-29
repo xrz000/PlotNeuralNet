@@ -74,22 +74,33 @@ Add the following code to your new file:
 
 ```python
 import sys
-from plotnn.tikzeng import *
+from plotnn import plotnn
+import plotnn.tikzeng as tk
 
-# defined your arch
-arch = [
-    to_head(),
-    to_cor(),
-    to_begin(),
-    to_Conv("conv1", 512, 64, offset="(0,0,0)", to="(0,0,0)", height=64, depth=64, width=2 ),
-    to_Pool("pool1", offset="(0,0,0)", to="(conv1-east)"),
-    to_Conv("conv2", 128, 64, offset="(1,0,0)", to="(pool1-east)", height=32, depth=32, width=2 ),
-    to_connection( "pool1", "conv2"),
-    to_Pool("pool2", offset="(0,0,0)", to="(conv2-east)", height=28, depth=28, width=1),
-    to_SoftMax("soft1", 10 ,"(3,0,0)", "(pool1-east)", caption="SOFT"),
-    to_connection("pool2", "soft1"),
-    to_end()
-]
+
+def main():
+    namefile = str(sys.argv[0]).split('.')[0]
+    arch = [
+        tk.Conv2D("conv1", out_width=512, out_channel=64, location=(0, 0, 0), offset=(0, 0, 0),
+                  height=64, depth=64, width=2, caption="Conv"),
+        tk.Pool("pool1", location="conv1-east", offset=(1, 0, 0), height=32, depth=32, width=2, caption="MaxPool"),
+        tk.Connection("conv1", "pool1"),
+
+        tk.Conv2D("conv2", out_width=128, out_channel=64, location="pool1-east", offset=(2, 0, 0),
+                  height=32, depth=32, width=2, caption="Conv"),
+        tk.Connection("pool1", "conv2"),
+
+        tk.Pool("pool2", location="conv2-east", offset=(1, 0, 0), height=16, depth=16, width=2, caption="MaxPool"),
+        tk.Connection("conv2", "pool2"),
+
+        tk.Softmax("soft1", out_channel=10, location="pool2-east", offset=(3, 0, 0), height=16, depth=16, width=2, caption="Softmax"),
+        tk.Connection("pool2", "soft1"),
+
+        tk.Sum("sum1", location="soft1-east", offset=(1.5, 0, 0), radius=2.5, opacity=0.6),
+        tk.Connection("soft1", "sum1"),
+    ]
+    plotnn.generate([arch], namefile + '.tex')
+
 
 def main():
     namefile = str(sys.argv[0]).split('.')[0]
