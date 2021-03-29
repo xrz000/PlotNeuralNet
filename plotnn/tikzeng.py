@@ -134,6 +134,16 @@ class Pool(Box):
         super(Pool, self).__init__(name=name, color=color, opacity=opacity, **args)
 
 
+class Anchor(Base):
+    def __init__(self, name, location, offset):
+        self.template_name = "anchor.tex"
+        super(Anchor, self).__init__(name=name, raw_location=location, offset=offset)
+
+    def to_tex(self):
+        self.attributes['location'] = parse_location(self.attributes['raw_location'])
+        return super(Anchor, self).to_tex()
+
+
 class Connection(Base):
     def __init__(self, origin="", target="", origin_loc="east", target_loc="west",
                  origin_pos=1.5, target_pos=1.5, path="--", arrow="-Stealth",
