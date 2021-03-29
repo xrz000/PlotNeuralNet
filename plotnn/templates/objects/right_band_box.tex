@@ -1,0 +1,16 @@
+\pic[shift={ {{- offset -}} }] at {{ location }} {
+    RightBandedBox={
+        name={{ name }},
+        caption={{ caption }},
+        xlabel={{ xlabel|default('{{" ",}}') }},
+        ylabel={{ ylabel|default("") }},
+        zlabel={{ zlabel|default("") }},
+        fill={{ color|default("\ConvColor") }},
+        bandfill={{ bandcolor|default("\ConvReluColor") }},
+        height={{ height }},
+        width={{ width }},
+        depth={{ depth }},
+        opacity={{ opacity|default("0.4") }},
+        bandopacity={{ opacity|default("0.6") }}
+    }
+};

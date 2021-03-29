@@ -13,7 +13,7 @@ setuptools.setup(
     long_description_content_type="text/markdown",
     url="https://github.com/xrz000/PlotNeuralNet",
     packages=['plotnn'],
-    package_data={'plotnn': ['layers/*']},
+    package_data={'plotnn': ['layers/*', 'templates/*']},
     include_package_data=True,
     classifiers=[
         "Programming Language :: Python :: 3",

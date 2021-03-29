@@ -1,4 +1,5 @@
 \ProvidesPackage{Box}
+\usepackage{ifthen}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % This Block can draw simple block of boxes with custom colors. 
@@ -49,8 +50,10 @@
         
         
         \tikzstyle{captionlabel}=[text width=15*\LastEastx/\scale,text centered]       
-        \path (\LastEastx/2,-\y/2,+\z/2) + (0,-25pt) coordinate (cap) 
-        edge ["\textcolor{black}{ \bf \caption}"',captionlabel](cap) ; %Block caption/pic object label
+        \ifthenelse{\equal{\caption}{}}{}{
+            \path (\LastEastx/2,-\y/2,+\z/2) + (0,-25pt) coordinate (cap) 
+            edge ["\textcolor{black}{ \bf \caption}"',captionlabel](cap) ; %Block caption/pic object label
+        }
          
         %Define nodes to be used outside on the pic object
         \coordinate (\name-west)   at (0,0,0) ;
@@ -58,6 +61,7 @@
         \coordinate (\name-north)  at (\LastEastx/2,\y/2,0);
         \coordinate (\name-south)  at (\LastEastx/2,-\y/2,0);       
         \coordinate (\name-anchor) at (\LastEastx/2, 0,0) ;
+        \coordinate (\name) at (\LastEastx/2, 0,0) ;
         
         \coordinate (\name-near) at (\LastEastx/2,0,\z/2);
         \coordinate (\name-far)  at (\LastEastx/2,0,-\z/2);       

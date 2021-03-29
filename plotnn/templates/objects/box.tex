@@ -1,0 +1,14 @@
+\pic[shift={ {{- offset -}} }] at {{ location }} {
+    Box={
+        name={{ name }},
+        caption={{ caption }},
+        xlabel={{ xlabel|default('{{" ",}}') }},
+        ylabel={{ ylabel|default("") }},
+        zlabel={{ zlabel|default("") }},
+        fill={{ color|default("\ConvColor") }},
+        height={{ height }},
+        width={{ width }},
+        depth={{ depth }},
+        opacity={{ opacity|default("0.4") }}
+    }
+};
