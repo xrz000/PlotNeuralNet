@@ -219,3 +219,37 @@ class Text(Base):
         self.attributes['location'] = parse_location(self.attributes['raw_location'])
         self.attributes['color'] = parse_color(self.attributes['color'])
         return super(Text, self).to_tex()
+
+
+class Block(object):
+    def __init__(self, name, layers):
+        self.layers = layers
+        old_names = set([x.name for x in self.layers])
+        for layer in self.layers:
+            new_name = "{}_{}".format(name, layer.attributes["name"])
+            update_dict = {"name": new_name}
+            for aname in ['raw_location', 'raw_origin', 'raw_target']:
+                if aname in layer.attributes:
+                    loc = layer.attributes[aname]
+                    if self.raw_name(loc) in old_names:
+                        update_dict[aname] = self.add_prefix(loc, name)
+            layer.update(update_dict)
+
+    @staticmethod
+    def add_prefix(name, prefix):
+        if name.startswith('('):
+            return name
+        else:
+            return prefix + '_' + name
+
+    @staticmethod
+    def raw_name(name):
+        return name.split('-')[0]
+
+    @property
+    def output_name(self):
+        return self.layers[-1].name
+
+    @property
+    def input_name(self):
+        return self.layers[0].name
