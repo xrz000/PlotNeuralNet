@@ -253,3 +253,25 @@ class Block(object):
     @property
     def input_name(self):
         return self.layers[0].name
+
+
+class Legend(Base):
+    def __init__(self, items=[], location="south east", offset=(0, 0, 0),
+                 scale=1.0, fontsize="tiny"):
+        self.template_name = "legend.tex"
+        self.items = items
+        if location in ["north west", "south west", "north east", "south east"]:
+            anchor = location
+            location = "(current bounding box.{})".format(location)
+        else:
+            anchor = "center"
+            location = parse_location(location)
+        super(Legend, self).__init__(
+            name="legend", location=location, offset=offset,
+            anchor=anchor, scale=scale, fontsize=fontsize)
+
+    def to_tex(self):
+        self.attributes["items"] = [
+            (x[0].to_tex(), x[1]) for x in self.items
+        ]
+        return super(Legend, self).to_tex()

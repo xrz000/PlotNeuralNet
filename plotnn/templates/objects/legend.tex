@@ -1,0 +1,9 @@
+\matrix [draw, matrix anchor={{ anchor }},
+    column 2/.style={anchor=west},
+    every node/.style={scale={{ scale }}},
+    shift={ {{- offset -}} }]
+at {{ location }} {
+{% for item in items %}
+{{ item[0] }} & \node [font={\{{ fontsize }}}] { {{ item[1] }} }; \\
+{%- endfor %}
+};
