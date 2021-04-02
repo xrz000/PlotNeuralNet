@@ -137,3 +137,6 @@ MANIFEST
 __pycache__/
 *.py[cod]
 *$py.class
+
+# PDF files in python example folder
+examples/Python/*.pdf
