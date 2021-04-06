@@ -79,7 +79,7 @@ class Box(Base):
                  xlabel="", ylabel="", zlabel="",
                  width=1, height=1, depth=1,
                  right_band=False, color="white",
-                 caption="", **args):
+                 bandcolor='white', caption="", **args):
         if right_band:
             self.template_name = "right_band_box.tex"
         else:
@@ -88,12 +88,13 @@ class Box(Base):
             name=name, raw_location=location, offset=offset,
             xlabel=xlabel, ylabel=ylabel, zlabel=zlabel,
             width=width, height=height, depth=depth,
-            color=color, caption=caption, **args
+            color=color, bandcolor=bandcolor, caption=caption, **args
         )
 
     def to_tex(self):
         self.attributes['location'] = parse_location(self.attributes['raw_location'])
         self.attributes['color'] = parse_color(self.attributes['color'])
+        self.attributes['bandcolor'] = parse_color(self.attributes['bandcolor'])
         xlabel = self.attributes['xlabel']
         if isinstance(xlabel, (int, str)):
             xlabel = str(xlabel).split(',')
@@ -105,11 +106,11 @@ class Box(Base):
 
 class Conv2D(Box):
     def __init__(self, name, out_channel="", out_height="", out_width="",
-                 activation=None, color="\\ConvColor", **args):
+                 activation=None, color="\\ConvColor", bandcolor="\\ActColor", **args):
         right_band = activation is not None
         super(Conv2D, self).__init__(
             name=name, xlabel=out_channel, ylabel=out_height, zlabel=out_width,
-            right_band=right_band, color=color, **args
+            right_band=right_band, color=color, bandcolor=bandcolor, **args
         )
 
 
