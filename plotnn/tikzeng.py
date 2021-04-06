@@ -222,6 +222,20 @@ class Text(Base):
         return super(Text, self).to_tex()
 
 
+class Rectangle(Base):
+    def __init__(self, name, location=(0, 0, 0), offset=(0, 0, 0),
+                 width=1, height=1, caption=""):
+        self.template_name = "rectangle.tex"
+        super(Rectangle, self).__init__(
+            name=name, raw_location=location, offset=offset,
+            width=width, height=height, caption=caption,
+        )
+
+    def to_tex(self):
+        self.attributes['location'] = parse_location(self.attributes['raw_location'])
+        return super(Rectangle, self).to_tex()
+
+
 class Block(object):
     def __init__(self, name, layers):
         self.layers = layers

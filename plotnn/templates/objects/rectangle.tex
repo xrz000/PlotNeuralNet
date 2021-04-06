@@ -1,0 +1,10 @@
+\pic[shift={ {{- offset -}} }] at {{ location }} {
+    Rectangle={
+        name={{ name }},
+        caption={{ caption }},
+        fill={{ color|default("\ConvColor") }},
+        height={{ height }},
+        width={{ width }},
+        opacity={{ opacity|default("0.4") }}
+    }
+};

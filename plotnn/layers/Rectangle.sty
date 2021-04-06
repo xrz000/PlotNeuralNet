@@ -1,0 +1,37 @@
+\ProvidesPackage{Rectangle}
+
+\tikzset{
+    Rectangle/.pic={\tikzset{/rect/.cd,#1}
+        \coordinate (\name) at (0, 0, 0);
+        \coordinate (\name-east)   at (\w/2, 0, 0);
+        \coordinate (\name-west)   at (-\w/2, 0, 0);
+        \coordinate (\name-north)  at (0, \h/2, 0);
+        \coordinate (\name-south)  at (0, -\h/2, 0);
+        \coordinate (\name-anchor) at (0, 0, 0);
+        \coordinate (\name-northeast)   at (\w/2, \h/2, 0);
+        \coordinate (\name-northwest)   at (-\w/2, \h/2, 0);
+        \coordinate (\name-southeast)   at (\w/2, -\h/2, 0);
+        \coordinate (\name-southwest)   at (-\w/2, -\h/2, 0);
+
+        \draw (\name-northwest) -- (\name-southwest) -- (\name-southeast) -- (\name-northeast) -- cycle;
+        \path (\name-west) -- (\name-east) node [midway] (caption) {\caption};
+    },
+    /rect/.search also={/tikz},
+    /rect/.cd,
+    width/.store        in=\w,
+    height/.store       in=\h,
+    scale/.store        in=\scale,
+    caption/.store      in=\caption,
+    name/.store         in=\name,
+    caption/.store      in=\caption,
+    fill/.store         in=\fill,
+    opacity/.store      in=\opacity,
+    width=1,
+    height=1,
+    scale=0.2,
+    caption=,
+    name=,
+    fill=,
+    caption="",
+    opacity=0.10,
+}
