@@ -186,13 +186,13 @@ class Connection(Base):
 
 class Ball(Base):
     def __init__(self, name, location=(0, 0, 0), offset=(0, 0, 0),
-                 color="white", logo="",
-                 radius=2.5, opacity=0.6, **args):
+                 color="white", text="", shade=True, fontscale=1.0,
+                 radius=2.5, opacity=0.8, **args):
         self.template_name = "node.tex"
         super(Ball, self).__init__(
             name=name, raw_location=location, offset=offset,
             opacity=opacity, radius=radius, color=color,
-            logo=logo, **args
+            shades=str(int(shade)), text=text, fontscale=fontscale, **args
         )
 
     def to_tex(self):
@@ -202,18 +202,21 @@ class Ball(Base):
 
 
 class Sum(Ball):
-    def __init__(self, name, color="\\SumColor", logo="+", **args):
-        super(Sum, self).__init__(name=name, color=color, logo=logo, **args)
+    def __init__(self, name, color="\\SumColor", text="$+$", **args):
+        super(Sum, self).__init__(name=name, color=color, text=text,
+                                  fontscale=2, **args)
 
 
 class Multiply(Ball):
-    def __init__(self, name, color="\\SumColor", logo="\\times", **args):
-        super(Multiply, self).__init__(name=name, color=color, logo=logo, **args)
+    def __init__(self, name, color="\\SumColor", text="$\\times$", **args):
+        super(Multiply, self).__init__(name=name, color=color, text=text,
+                                       fontscale=2, **args)
 
 
 class Concat(Ball):
-    def __init__(self, name, color="\\SumColor", logo="||", **args):
-        super(Concat, self).__init__(name=name, color=color, logo=logo, **args)
+    def __init__(self, name, color="\\SumColor", text="$||$", **args):
+        super(Concat, self).__init__(name=name, color=color, text=text,
+                                     fontscale=2, **args)
 
 
 class Text(Base):
