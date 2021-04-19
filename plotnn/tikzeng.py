@@ -219,11 +219,11 @@ class Concat(Ball):
                                      fontscale=2, **args)
 
 
-class Text(Base):
+class text(base):
     def __init__(self, text="", location=(0, 0, 0), offset=(0, 0, 0),
-                 color="black", bold=True, fontsize="small"):
+                 color="black", bold=true, fontsize="small"):
         self.template_name = "text.tex"
-        super(Text, self).__init__(
+        super(text, self).__init__(
             name="", raw_location=location, offset=offset,
             text=text, color=color, bold=bold, fontsize=fontsize,
         )
