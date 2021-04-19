@@ -4,19 +4,7 @@
 \usetikzlibrary{positioning}
 \usetikzlibrary{3d} %for including external image 
 
-
-\def\ConvColor{rgb:yellow,5;red,2.5;white,5}
-\def\ActColor{rgb:yellow,5;red,5;white,5}
-\def\PoolColor{rgb:red,1;black,0.3}
-\def\UnpoolColor{rgb:blue,2;green,1;black,0.3}
-\def\FcColor{rgb:blue,2;green,5;white,5}
-\def\SoftmaxColor{rgb:magenta,5;black,7}   
-\def\SumColor{rgb:blue,5;green,15}
-\def\edgecolor{rgb,255:red,0;green,0;blue,0}
-
-
 \begin{document}
-\tikzstyle{connection}=[-Stealth,line width=1.2pt,thick,every node/.style={sloped,allow upside down},draw=\edgecolor,opacity=0.7]
 {% for fig in figs %}
 \begin{tikzpicture}
 {% for layer in fig %}

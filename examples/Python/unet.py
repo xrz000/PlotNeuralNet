@@ -49,7 +49,7 @@ def main():
 
         tk.ConvTranspose2D(name='unpool_b1', out_channel=512, offset=(1, 3, 0), location="conv_9-northeast", width=8, height=5, depth=5),
         tk.Connection("conv_9", "unpool_b1", path='|-'),
-        tk.Ball("concat_b1", location="unpool_b1-east", offset=(1, 0, 0), logo="||"),
+        tk.Concat("concat_b1", location="unpool_b1-east", offset=(1, 0, 0), color="white"),
         tk.Connection("unpool_b1", "concat_b1"),
         tk.Box("concat_1", location="concat_b1-east", offset=(1, 0, 0), xlabel=1024, width=10, height=5, depth=5),
         tk.Connection("concat_b1", "concat_1"),
@@ -64,7 +64,7 @@ def main():
 
         tk.ConvTranspose2D(name='unpool_b2', out_channel=256, offset=(1, 5, 0), location="conv_11-northeast", width=6, height=10, depth=10),
         tk.Connection("conv_11", "unpool_b2", path='|-'),
-        tk.Ball("concat_b2", location="unpool_b2-east", offset=(1, 0, 0), logo="||"),
+        tk.Concat("concat_b2", location="unpool_b2-east", offset=(1, 0, 0), color="white"),
         tk.Connection("unpool_b2", "concat_b2"),
         tk.Box("concat_2", location="concat_b2-east", offset=(1, 0, 0), xlabel=512, width=8, height=10, depth=10),
         tk.Connection("concat_b2", "concat_2"),
@@ -78,7 +78,7 @@ def main():
 
         tk.ConvTranspose2D(name='unpool_b3', out_channel=128, offset=(2, 6, 0), location="conv_13-northeast", width=4, height=20, depth=20),
         tk.Connection("conv_13", "unpool_b3", path='|-'),
-        tk.Ball("concat_b3", location="unpool_b3-east", offset=(1, 0, 0), logo="||"),
+        tk.Concat("concat_b3", location="unpool_b3-east", offset=(1, 0, 0), color="white"),
         tk.Connection("unpool_b3", "concat_b3"),
         tk.Box("concat_3", location="concat_b3-east", offset=(1, 0, 0), xlabel=256, width=6, height=20, depth=20),
         tk.Connection("concat_b3", "concat_3"),
@@ -92,7 +92,7 @@ def main():
 
         tk.ConvTranspose2D(name='unpool_b4', out_channel=64, offset=(2, 8, 0), location="conv_15-northeast", width=2, height=40, depth=40),
         tk.Connection("conv_15", "unpool_b4", path='|-'),
-        tk.Ball("concat_b4", location="unpool_b4-east", offset=(2, 0, 0), logo="||"),
+        tk.Concat("concat_b4", location="unpool_b4-east", offset=(2, 0, 0), color="white"),
         tk.Connection("unpool_b4", "concat_b4"),
         tk.Box("concat_4", location="concat_b4-east", offset=(2, 0, 0), xlabel=128, width=4, height=40, depth=40),
         tk.Connection("concat_b4", "concat_4"),
@@ -117,7 +117,7 @@ def main():
                 (tk.ConvTranspose2D("deconv"), "Upsample+Conv"),
                 (tk.Pool("maxpool"), "MaxPooling"),
                 (tk.Softmax("softmax"), "Softmax"),
-                (tk.Ball("concat", logo="||", radius=0.7), "Concat"),
+                (tk.Concat("concat", color="white", radius=0.7), "Concat"),
                 (tk.Connection((0, 0, 0), (1, 0, 0), color="blue", linestyle="double"), "Copy and Crop"),
             ],
             scale=3.0,

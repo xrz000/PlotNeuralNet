@@ -148,14 +148,16 @@ class Anchor(Base):
 class Connection(Base):
     def __init__(self, origin="", target="", origin_loc="east", target_loc="west",
                  origin_pos=1.5, target_pos=1.5, path="--", arrow="-Stealth",
-                 color="black", linestyle="solid", linewidth="1.2pt", opacity=0.6):
+                 color="black", linestyle="solid", linewidth="1.2pt", opacity=0.6,
+                 caption=""):
         self.template_name = "connection.tex"
         super(Connection, self).__init__(
-            origin=origin, target=target,
+            raw_origin=origin, raw_target=target,
             origin_loc=origin_loc, target_loc=target_loc,
             origin_pos=origin_pos, target_pos=target_pos,
             path=path, arrow=arrow, color=color,
             linestyle=linestyle, linewidth=linewidth, opacity=opacity,
+            caption=caption
         )
 
     def to_tex(self):
@@ -167,23 +169,30 @@ class Connection(Base):
 
         if self.attributes['path'] in ["--", "|-", "-|"]:
             self.attributes['origin'] = parse_location(
-                self.attributes['origin'], self.attributes['origin_loc']
+                self.attributes['raw_origin'], self.attributes['origin_loc']
             )
             self.attributes['target'] = parse_location(
-                self.attributes['target'], self.attributes['target_loc']
+                self.attributes['raw_target'], self.attributes['target_loc']
             )
+        else:
+            self.attributes['origin'] = self.attributes['raw_origin']
+            self.attributes['target'] = self.attributes['raw_target']
+        if self.attributes['path'] == "--":
+            self.attributes["caption_loc"] = "midway"
+        else:
+            self.attributes["caption_loc"] = "pos=0.25"
         return super(Connection, self).to_tex()
 
 
 class Ball(Base):
     def __init__(self, name, location=(0, 0, 0), offset=(0, 0, 0),
-                 color="white", logo="",
-                 radius=2.5, opacity=0.6, **args):
+                 color="white", text="", shade=True, fontscale=1.0,
+                 radius=2.5, opacity=0.8, **args):
         self.template_name = "node.tex"
         super(Ball, self).__init__(
             name=name, raw_location=location, offset=offset,
             opacity=opacity, radius=radius, color=color,
-            logo=logo, **args
+            shades=str(int(shade)), text=text, fontscale=fontscale, **args
         )
 
     def to_tex(self):
@@ -193,18 +202,21 @@ class Ball(Base):
 
 
 class Sum(Ball):
-    def __init__(self, name, color="\\SumColor", logo="+", **args):
-        super(Sum, self).__init__(name=name, color=color, logo=logo, **args)
+    def __init__(self, name, color="\\SumColor", text="$+$", **args):
+        super(Sum, self).__init__(name=name, color=color, text=text,
+                                  fontscale=2, **args)
 
 
 class Multiply(Ball):
-    def __init__(self, name, color="\\SumColor", logo="\\times", **args):
-        super(Multiply, self).__init__(name=name, color=color, logo=logo, **args)
+    def __init__(self, name, color="\\SumColor", text="$\\times$", **args):
+        super(Multiply, self).__init__(name=name, color=color, text=text,
+                                       fontscale=2, **args)
 
 
 class Concat(Ball):
-    def __init__(self, name, color="\\SumColor", logo="||", **args):
-        super(Concat, self).__init__(name=name, color=color, logo=logo, **args)
+    def __init__(self, name, color="\\SumColor", text="$||$", **args):
+        super(Concat, self).__init__(name=name, color=color, text=text,
+                                     fontscale=2, **args)
 
 
 class Text(Base):
@@ -224,21 +236,32 @@ class Text(Base):
 
 class Rectangle(Base):
     def __init__(self, name, location=(0, 0, 0), offset=(0, 0, 0),
-                 width=1, height=1, caption=""):
+                 width=1, height=1, color="white", linecolor="black",
+                 linestyle="solid", linewidth="0.4pt", curve_corner=False,
+                 text="", caption="", opacity=1.0):
         self.template_name = "rectangle.tex"
         super(Rectangle, self).__init__(
             name=name, raw_location=location, offset=offset,
-            width=width, height=height, caption=caption,
+            width=width, height=height, color=color, opacity=opacity,
+            linecolor=linecolor, linestyle=linestyle, linewidth=linewidth,
+            curve_corner=curve_corner, text=text, caption=caption,
         )
 
     def to_tex(self):
         self.attributes['location'] = parse_location(self.attributes['raw_location'])
+        linestyle = [self.attributes["linestyle"]]
+        if self.attributes['curve_corner']:
+            linestyle.append("rounded corners")
+        self.attributes["style"] = ", ".join(linestyle)
         return super(Rectangle, self).to_tex()
 
 
 class Block(object):
-    def __init__(self, name, layers):
+    def __init__(self, name, layers, input_name=None, output_name=None):
         self.layers = layers
+        self.prefix = name
+        self._input_name = input_name
+        self._output_name = output_name
         old_names = set([x.name for x in self.layers])
         for layer in self.layers:
             new_name = "{}_{}".format(name, layer.attributes["name"])
@@ -246,7 +269,7 @@ class Block(object):
             for aname in ['raw_location', 'raw_origin', 'raw_target']:
                 if aname in layer.attributes:
                     loc = layer.attributes[aname]
-                    if self.raw_name(loc) in old_names:
+                    if isinstance(loc, str) and self.raw_name(loc) in old_names:
                         update_dict[aname] = self.add_prefix(loc, name)
             layer.update(update_dict)
 
@@ -263,10 +286,14 @@ class Block(object):
 
     @property
     def output_name(self):
+        if self._output_name is not None:
+            return "{}_{}".format(self.prefix, self._output_name)
         return self.layers[-1].name
 
     @property
     def input_name(self):
+        if self._input_name is not None:
+            return "{}_{}".format(self.prefix, self._input_name)
         return self.layers[0].name
 
 
