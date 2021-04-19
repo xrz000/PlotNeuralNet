@@ -1,7 +1,9 @@
 \ProvidesPackage{Rectangle}
+\usepackage{ifthen}
 
 \tikzset{
-    Rectangle/.pic={\tikzset{/rect/.cd,#1}
+    Rectangle/.pic={
+        \tikzset{/rect/.cd,#1}
         \coordinate (\name) at (0, 0, 0);
         \coordinate (\name-east)   at (\w/2, 0, 0);
         \coordinate (\name-west)   at (-\w/2, 0, 0);
@@ -13,25 +15,41 @@
         \coordinate (\name-southeast)   at (\w/2, -\h/2, 0);
         \coordinate (\name-southwest)   at (-\w/2, -\h/2, 0);
 
-        \draw (\name-northwest) -- (\name-southwest) -- (\name-southeast) -- (\name-northeast) -- cycle;
-        \path (\name-west) -- (\name-east) node [midway] (caption) {\caption};
+        \ifthenelse{\equal{\line_width}{0}}{}{
+        \path[fill=\fill, opacity=\opacity] (\name-northwest) -- (\name-southwest) -- (\name-southeast) -- (\name-northeast) -- cycle;
+        \draw[\linecolor, line width=\line_width, \linestyle] (\name-northwest) -- (\name-southwest) -- (\name-southeast) -- (\name-northeast) -- cycle;
+        }
+        \ifthenelse{\equal{\text}{}}{}{
+            \path (\name-west) -- (\name-east) node [midway] (text) {\text};
+        }
+        \ifthenelse{\equal{\caption}{}}{}{
+            \path (\name-south) + (0,-20pt) coordinate (caption-node) 
+            edge ["\textcolor{black}{\bf \caption}"'] (caption-node);
+        }
     },
     /rect/.search also={/tikz},
     /rect/.cd,
     width/.store        in=\w,
     height/.store       in=\h,
     scale/.store        in=\scale,
+    text/.store         in=\text,
     caption/.store      in=\caption,
     name/.store         in=\name,
-    caption/.store      in=\caption,
     fill/.store         in=\fill,
+    linecolor/.store    in=\linecolor,
+    linestyle/.store    in=\linestyle,
+    line_width/.store    in=\line_width,
     opacity/.store      in=\opacity,
     width=1,
     height=1,
     scale=0.2,
+    text=,
     caption=,
     name=,
     fill=,
-    caption="",
+    linecolor=,
+    linestyle=,
+    line_width=,
+    caption=,
     opacity=0.10,
 }

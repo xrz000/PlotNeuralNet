@@ -236,15 +236,23 @@ class text(base):
 
 class Rectangle(Base):
     def __init__(self, name, location=(0, 0, 0), offset=(0, 0, 0),
-                 width=1, height=1, caption=""):
+                 width=1, height=1, color="white", linecolor="black",
+                 linestyle="solid", linewidth="0.4pt", curve_corner=False,
+                 text="", caption="", opacity=1.0):
         self.template_name = "rectangle.tex"
         super(Rectangle, self).__init__(
             name=name, raw_location=location, offset=offset,
-            width=width, height=height, caption=caption,
+            width=width, height=height, color=color, opacity=opacity,
+            linecolor=linecolor, linestyle=linestyle, linewidth=linewidth,
+            curve_corner=curve_corner, text=text, caption=caption,
         )
 
     def to_tex(self):
         self.attributes['location'] = parse_location(self.attributes['raw_location'])
+        linestyle = [self.attributes["linestyle"]]
+        if self.attributes['curve_corner']:
+            linestyle.append("rounded corners")
+        self.attributes["style"] = ", ".join(linestyle)
         return super(Rectangle, self).to_tex()
 
 

@@ -1,8 +1,12 @@
 \pic[shift={ {{- offset -}} }] at {{ location }} {
     Rectangle={
         name={{ name }},
+        text={{ text }},
         caption={{ caption }},
-        fill={{ color|default("\ConvColor") }},
+        fill={{ color|default("white") }},
+        linecolor={{ linecolor|default("black") }},
+        linestyle={{ style }},
+        line_width={{ linewidth }},
         height={{ height }},
         width={{ width }},
         opacity={{ opacity|default("0.4") }}
