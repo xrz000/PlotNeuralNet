@@ -249,8 +249,11 @@ class Rectangle(Base):
 
 
 class Block(object):
-    def __init__(self, name, layers):
+    def __init__(self, name, layers, input_name=None, output_name=None):
         self.layers = layers
+        self.prefix = name
+        self._input_name = input_name
+        self._output_name = output_name
         old_names = set([x.name for x in self.layers])
         for layer in self.layers:
             new_name = "{}_{}".format(name, layer.attributes["name"])
@@ -258,7 +261,7 @@ class Block(object):
             for aname in ['raw_location', 'raw_origin', 'raw_target']:
                 if aname in layer.attributes:
                     loc = layer.attributes[aname]
-                    if self.raw_name(loc) in old_names:
+                    if isinstance(loc, str) and self.raw_name(loc) in old_names:
                         update_dict[aname] = self.add_prefix(loc, name)
             layer.update(update_dict)
 
@@ -275,10 +278,14 @@ class Block(object):
 
     @property
     def output_name(self):
+        if self._output_name is not None:
+            return "{}_{}".format(self.prefix, self._output_name)
         return self.layers[-1].name
 
     @property
     def input_name(self):
+        if self._input_name is not None:
+            return "{}_{}".format(self.prefix, self._input_name)
         return self.layers[0].name
 
 
