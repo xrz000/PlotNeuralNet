@@ -148,14 +148,16 @@ class Anchor(Base):
 class Connection(Base):
     def __init__(self, origin="", target="", origin_loc="east", target_loc="west",
                  origin_pos=1.5, target_pos=1.5, path="--", arrow="-Stealth",
-                 color="black", linestyle="solid", linewidth="1.2pt", opacity=0.6):
+                 color="black", linestyle="solid", linewidth="1.2pt", opacity=0.6,
+                 caption=""):
         self.template_name = "connection.tex"
         super(Connection, self).__init__(
-            origin=origin, target=target,
+            raw_origin=origin, raw_target=target,
             origin_loc=origin_loc, target_loc=target_loc,
             origin_pos=origin_pos, target_pos=target_pos,
             path=path, arrow=arrow, color=color,
             linestyle=linestyle, linewidth=linewidth, opacity=opacity,
+            caption=caption
         )
 
     def to_tex(self):
@@ -167,11 +169,18 @@ class Connection(Base):
 
         if self.attributes['path'] in ["--", "|-", "-|"]:
             self.attributes['origin'] = parse_location(
-                self.attributes['origin'], self.attributes['origin_loc']
+                self.attributes['raw_origin'], self.attributes['origin_loc']
             )
             self.attributes['target'] = parse_location(
-                self.attributes['target'], self.attributes['target_loc']
+                self.attributes['raw_target'], self.attributes['target_loc']
             )
+        else:
+            self.attributes['origin'] = self.attributes['raw_origin']
+            self.attributes['target'] = self.attributes['raw_target']
+        if self.attributes['path'] == "--":
+            self.attributes["caption_loc"] = "midway"
+        else:
+            self.attributes["caption_loc"] = "pos=0.25"
         return super(Connection, self).to_tex()
 
 
