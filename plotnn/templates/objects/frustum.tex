@@ -1,0 +1,15 @@
+\pic[shift={ {{- inoffset -}} }] at {{ location }} {
+    Frustum={
+        name={{ name }},
+        caption={{ caption }},
+        fill={{ color|default("\ConvColor") }},
+        outx={{ outoffset[0] }},
+        outy={{ outoffset[1] }},
+        outz={{ outoffset[2] }},
+        inwidth={{ inwidth }},
+        inheight ={{ inheight }},
+        outwidth={{ outwidth }},
+        outheight ={{ outheight }},
+        opacity={{ opacity|default("0.0") }}
+    }
+};
