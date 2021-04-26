@@ -8,6 +8,8 @@ def main():
     arch = [
         # Input
         tk.Box("input", xlabel=3, width=2, height=32, depth=32, caption="Input"),
+        tk.Image("image", "./images/dogcat.jpg",
+                 location="input-east", offset=(0, 0, 0), width=6, height=6),
         # Convnet Backbone
         tk.Conv2D("backbone", location="input", offset=(3, 0, 0),
                   width=24, height=20, depth=20, caption="Backbone"),
@@ -37,6 +39,8 @@ def main():
                            height=16, depth=16),
         tk.Conv2D("mask_head", location="deconv2-east", offset=(2, 0, 0),
                   height=16, depth=16, caption="Mask"),
+        tk.Image("mask", "./images/cat_seg.jpg",
+                 location="mask_head-east", offset=(0, 0, 0), height=3, width=3),
         # Connections
         tk.Connection("input", "backbone"),
         tk.Connection("backbone", "RPN"),

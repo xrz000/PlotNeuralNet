@@ -7,16 +7,21 @@ Latex code for drawing neural networks for reports and presentation. Have a look
 
 Following are some network representations:
 
-<p align="center"><img  src="https://user-images.githubusercontent.com/17570785/50308846-c2231880-049c-11e9-8763-3daa1024de78.png" width="85%" height="85%"></p>
-<h6 align="center">FCN-8 (<a href="https://www.overleaf.com/read/kkqntfxnvbsk">view on Overleaf</a>)</h6>
+|![vgg](./examples/Python/vgg.jpg)|
+|:--:| 
+| *VGG16* |
 
+|![maskrcnn](./examples/Python/maskrcnn.jpg)|
+|:--:| 
+| *Mask-RCNN* |
 
-<p align="center"><img  src="https://user-images.githubusercontent.com/17570785/50308873-e2eb6e00-049c-11e9-9587-9da6bdec011b.png" width="85%" height="85%"></p>
-<h6 align="center">FCN-32 (<a href="https://www.overleaf.com/read/wsxpmkqvjnbs">view on Overleaf</a>)</h6>
+|![lstm](./examples/Python/ssd.jpg)|
+|:--:| 
+| *Single Shot MultiBox Detector (SSD)* |
 
-
-<p align="center"><img  src="https://user-images.githubusercontent.com/17570785/50308911-03b3c380-049d-11e9-92d9-ce15669017ad.png" width="85%" height="85%"></p>
-<h6 align="center">Holistically-Nested Edge Detection (<a href="https://www.overleaf.com/read/jxhnkcnwhfxp">view on Overleaf</a>)</h6>
+|![lstm](./examples/Python/lstm.jpg)|
+|:--:| 
+| *Long Short-Term Memory (LSTM)* |
 
 ## Getting Started
 1. Install latex and other dependencies.

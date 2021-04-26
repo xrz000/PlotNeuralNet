@@ -9,7 +9,8 @@ def main():
 
     arch = [
         tk.Box("input", xlabel=3, ylabel=300, zlabel=300, width=2, height=48, depth=48, caption="Input"),
-        tk.Image("image", "../LaTex/fcn8s/cats.jpg", location="input-east", offset=(0, 0, 0), width=8, height=8),
+        tk.Image("image", "./images/dogcat.jpg",
+                 location="input-east", offset=(0, 0, 0), width=8, height=8),
         tk.Box("backbone", location="input", offset=(3, 0, 0), width=32, height=24, depth=24),
         tk.Text("VGG16", location="backbone-north", offset=(0, 1.5, 0)),
         tk.Connection("input", "backbone"),
@@ -80,6 +81,10 @@ def main():
         tk.Rectangle("agg", location="Conv11_2", offset=(5, -3, 0), width=2, height=8, caption="8732 Boxes"),
         tk.Rectangle("nms", location="agg", offset=(4, 0, 0), width=2, height=8, caption="NMS"),
         tk.Connection("agg", "nms"),
+
+        tk.Image("outputs", "./images/dogcat_det.jpg",
+                 location="nms-east", offset=(4, 0, 0), width=8, height=8),
+        tk.Connection("nms", "outputs", target_loc=None),
 
         tk.Anchor("reg_head", location="backbone", offset=(8, 9, 0)),
         tk.Box("feature", xlabel="$N_{f}$", caption="feature map",
