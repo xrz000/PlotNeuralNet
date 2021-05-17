@@ -254,6 +254,22 @@ class Text(Base):
         return super(Text, self).to_tex()
 
 
+class Grid(Base):
+    def __init__(self, name, location=(0, 0, 0), offset=(0, 0, 0),
+                 width=1, height=1, step=3, caption="",
+                 color="none", opacity=0.8):
+        self.template_name = "grid.tex"
+        super(Grid, self).__init__(
+            name=name, raw_location=location, offset=offset,
+            width=width, height=height, step=step, opacity=opacity,
+            color=color, caption=caption
+        )
+
+    def to_tex(self):
+        self.attributes['location'] = parse_location(self.attributes['raw_location'])
+        return super(Grid, self).to_tex()
+
+
 class Rectangle(Base):
     def __init__(self, name, location=(0, 0, 0), offset=(0, 0, 0),
                  width=1, height=1, color="white", linecolor="black",

@@ -23,8 +23,10 @@ def main():
                    input_offset=(0, -0.8, 1), input_width=8, input_height=10,
                    output_offset=(4, 0.8, -1), output_width=12, output_height=12,
                    caption="RoIAlign"),
+        tk.Grid("roi_in", location="RoIAlign-west", width=8, height=10, step=7),
         tk.Box("roi", location="RoIAlign-east", width=4, height=12, depth=12,
                color="\\red", caption="ROI"),
+        tk.Grid("roi_out", location="roi-east", width=12, height=12, step=7),
         # Box head
         tk.FC("fc0", location="roi-east", activation="relu", offset=(3, 5, 0), depth=12),
         tk.FC("fc1", location="fc0-east", activation="relu", offset=(1, 0, 0), depth=12, caption="FC"),
