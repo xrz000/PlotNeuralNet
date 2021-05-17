@@ -219,6 +219,26 @@ class Concat(Ball):
                                      fontscale=2, **args)
 
 
+class Frustum(Base):
+    def __init__(self, name,
+                 location=(0, 0, 0), input_offset=(0, 0, 0),
+                 output_offset=(1, 0, 0), input_width=1, input_height=1,
+                 output_width=1, output_height=1,
+                 color="white", caption="", **args):
+        self.template_name = "frustum.tex"
+        super(Frustum, self).__init__(
+            name=name, raw_location=location,
+            inoffset=input_offset, inwidth=input_width, inheight=input_height,
+            outoffset=output_offset, outwidth=output_width, outheight=output_height,
+            color=color, caption=caption, **args
+        )
+
+    def to_tex(self):
+        self.attributes['location'] = parse_location(self.attributes['raw_location'])
+        self.attributes['color'] = parse_color(self.attributes['color'])
+        return super(Frustum, self).to_tex()
+
+
 class Text(Base):
     def __init__(self, text="", location=(0, 0, 0), offset=(0, 0, 0),
                  color="black", bold=True, fontsize="small"):
@@ -232,6 +252,22 @@ class Text(Base):
         self.attributes['location'] = parse_location(self.attributes['raw_location'])
         self.attributes['color'] = parse_color(self.attributes['color'])
         return super(Text, self).to_tex()
+
+
+class Grid(Base):
+    def __init__(self, name, location=(0, 0, 0), offset=(0, 0, 0),
+                 width=1, height=1, step=3, caption="",
+                 color="none", opacity=0.8):
+        self.template_name = "grid.tex"
+        super(Grid, self).__init__(
+            name=name, raw_location=location, offset=offset,
+            width=width, height=height, step=step, opacity=opacity,
+            color=color, caption=caption
+        )
+
+    def to_tex(self):
+        self.attributes['location'] = parse_location(self.attributes['raw_location'])
+        return super(Grid, self).to_tex()
 
 
 class Rectangle(Base):

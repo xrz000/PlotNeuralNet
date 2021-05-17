@@ -1,0 +1,76 @@
+\ProvidesPackage{Frustum}
+\usepackage{ifthen}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% This Block can draw simple block of boxes with custom colors. 
+% Can be used for conv, deconv etc
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\tikzset{Frustum/.pic={\tikzset{/frustumblock/.cd,#1}
+        \tikzstyle{box}=[every edge/.append style={pic actions, densely dashed, opacity=.7},fill opacity=\opacity, pic actions,fill=\fill]
+        
+        \pgfmathsetmacro{\wi}{\inwidth*\scale}
+        \pgfmathsetmacro{\hi}{\inheight*\scale}
+        \pgfmathsetmacro{\wo}{\outwidth*\scale}
+        \pgfmathsetmacro{\ho}{\outheight*\scale}
+   
+        \pgfmathsetmacro{\x}{\outx}
+        \pgfmathsetmacro{\y}{\outy}
+        \pgfmathsetmacro{\z}{\outz}
+        \coordinate (a) at (0 , \hi/2 , \wi/2); 
+        \coordinate (b) at (0 ,-\hi/2 , \wi/2); 
+        \coordinate (c) at (0 ,-\hi/2 ,-\wi/2); 
+        \coordinate (d) at (0 , \hi/2 ,-\wi/2); 
+
+        \coordinate (e) at (\x , \ho/2+\y , \wo/2+\z); 
+        \coordinate (f) at (\x ,-\ho/2+\y , \wo/2+\z); 
+        \coordinate (g) at (\x ,-\ho/2+\y ,-\wo/2+\z); 
+        \coordinate (h) at (\x , \ho/2+\y ,-\wo/2+\z); 
+    
+        \draw [box] (a) -- (b) -- (c) -- (d) -- cycle;
+        \draw [box] (e) -- (f) -- (g) -- (h) -- cycle;
+        \draw [box] 
+            (a) edge (e)
+            (b) edge (f)
+            (c) edge (g)
+            (d) edge (h)
+        ;
+        \tikzstyle{captionlabel}=[text width=15*\x/\scale,text centered]       
+        \ifthenelse{\equal{\caption}{}}{}{
+            \path (\x/2, \hi/4-\ho/4, 0) + (0,-30pt) coordinate (cap) 
+            edge ["\textcolor{black}{ \bf \caption}", captionlabel](cap) ;
+        }
+         
+        %Define nodes to be used outside on the pic object
+        \coordinate (\name-west)   at (   0,   0,   0) ;
+        \coordinate (\name-east)   at (  \x,  \y,  \z) ;
+        \coordinate (\name-anchor) at (\x/2,\y/2,\z/2) ;
+        \coordinate (\name)        at (\x/2,\y/2,\z/2) ;
+
+    },
+    /frustumblock/.search also={/tikz},
+    /frustumblock/.cd,
+    outx/.store         in=\outx,
+    outy/.store         in=\outy,
+    outz/.store         in=\outz,
+    inwidth/.store      in=\inwidth,
+    inheight/.store     in=\inheight,
+    outwidth/.store     in=\outwidth,
+    outheight/.store    in=\outheight,
+    scale/.store        in=\scale,
+    caption/.store      in=\caption,
+    name/.store         in=\name,
+    fill/.store         in=\fill,
+    opacity/.store      in=\opacity,
+    fill=white,
+    opacity=0.0,
+    outx=1,
+    outy=0,
+    outz=0,
+    inwidth=1,
+    inheight=1,
+    outwidth=2,
+    outheight=2,
+    scale=0.2,
+    caption=,
+    name=,
+}

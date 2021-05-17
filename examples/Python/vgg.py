@@ -36,7 +36,7 @@ def main():
 
     arch = [
         tk.Box("input", xlabel=3, ylabel=224, zlabel=224, width=2, height=48, depth=48, caption="Input"),
-        tk.Image("image", "../LaTex/fcn8s/cats.jpg", location="input-east", offset=(0, 0, 0), width=8, height=8),
+        tk.Image("image", "./images/cats.jpg", location="input-east", offset=(0, 0, 0), width=8, height=8),
         block0,
         block1,
         block2,

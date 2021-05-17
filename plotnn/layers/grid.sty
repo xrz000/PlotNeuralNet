@@ -1,0 +1,46 @@
+\ProvidesPackage{Grid}
+\usepackage{ifthen}
+
+\tikzset{
+    Grid/.pic={
+        \tikzset{/Grid/.cd,#1}
+
+        \pgfmathsetmacro{\w}{\width*\scale}
+        \pgfmathsetmacro{\h}{\height*\scale}
+        \pgfmathsetmacro{\eps}{0.0001}
+
+        \coordinate (\name) at (0, 0, 0);
+        \coordinate (\name-east)   at (0, 0, 0);
+        \coordinate (\name-west)   at (0, 0, 0);
+        \coordinate (\name-north)  at (0, \h/2, 0);
+        \coordinate (\name-south)  at (0, -\h/2, 0);
+        \coordinate (\name-anchor) at (0, 0, 0);
+
+        \draw[fill=\fill, xstep=\w/\step, ystep=\h/\step, yslant=1, xscale=0.38,
+        opacity=\opacity, shift={(-\w/2-\eps,-\h/2-\eps)}] (0,0) grid (\w+\eps,\h+\eps)
+        rectangle (0,0);
+
+        \ifthenelse{\equal{\caption}{}}{}{
+            \path (\name-south) + (0,-30pt) coordinate (caption-node) 
+            edge ["\textcolor{black}{\bf \caption}"'] (caption-node);
+        }
+    },
+    /Grid/.search also={/tikz},
+    /Grid/.cd,
+    width/.store        in=\width,
+    height/.store       in=\height,
+    scale/.store        in=\scale,
+    step/.store         in=\step,
+    caption/.store      in=\caption,
+    fill/.store         in=\fill,
+    name/.store         in=\name,
+    opacity/.store      in=\opacity,
+    width=1,
+    height=1,
+    step=3,
+    scale=0.2,
+    caption=,
+    fill=,
+    name=,
+    opacity=0.8,
+}

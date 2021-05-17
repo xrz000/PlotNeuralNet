@@ -7,7 +7,7 @@ import plotnn.tikzeng as tk
 def main():
     namefile = str(sys.argv[0]).split('.')[0]
     arch = [
-        tk.Image("input", "../LaTex/fcn8s/cats.jpg"),
+        tk.Image("input", "./images/dogcat.jpg"),
 
         tk.Conv2D(name='conv_0', out_width=570, out_channel=64, activation="relu",
                   offset=(3, 0, 0), location="input", width=2, height=40, depth=40),
